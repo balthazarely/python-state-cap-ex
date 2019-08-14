@@ -154,54 +154,68 @@ states = [
 }]
 
 
-
+# this is the player object
 playerStats = {
     'correctGuesses': 0,
     'incorrectGuesses': 0,
     'turns': 0,
+    'name': ''
 } 
-
-
+# this is the start of the game where user input is gathered
 print("  ")
-print("Welcome to the US State Capitals Game!")
+print("Welcome to the US State Capitals Game! Keep in mind that every 8th grader in America knows this...")
+print("  ")
 print("Enter your name:")
+print("  ")
 name = input()
 print(" ")
 print("Hello, " + name)
+playerStats['name'] = name
+random.shuffle(states)
 
-
-
-
+# this is the game function
 def function_game():
     for i in range(0, 50):
-        random.shuffle(states)
         print(" ")
         print("What is the capital of " + states[i]['name'] + "?")
-        response = input()
+        response = input().title()
         if response == states[i]['capital']:
             print("good job, you're a genius!")
             print("  ")
             playerStats['correctGuesses'] += 1
             playerStats['turns'] += 1
-            print(playerStats)
+            print("Correct Guesses: ", + playerStats['correctGuesses']) 
+            print("Incorrect Guesses: ", + playerStats['incorrectGuesses']) 
+            print("Remaining Turns ", (playerStats['turns'] - 50) * -1)
         elif response != states[i]['capital']:
             print("Wrong! you suck at this game!")
             playerStats['incorrectGuesses'] += 1
             playerStats['turns'] += 1
-            print(playerStats)
-
-
+            print("Correct Guesses: ", + playerStats['correctGuesses']) 
+            print("Incorrect Guesses: ", + playerStats['incorrectGuesses']) 
+            print("Remaining Turns ", (playerStats['turns'] - 50) * -1)
+            
+# Running the game
 function_game()
 
+# Ending the game + asking to play again
 print(" ")
-print("Well it is over. I am guessing you didnt do all that well...")
+print("Well " + playerStats['name'] + ", it is over.")
+print(" ")
+if playerStats['incorrectGuesses'] > 40:
+    print("you are really bad at this... you should probably find an eigth grader to tutor your dumb ass...")
 print(" ")
 print("FINAL SCORE")
-print(playerStats)
+print("Correct Guesses: ", + playerStats['correctGuesses']) 
+print("Incorrect Guesses: ", + playerStats['incorrectGuesses']) 
 print(" ")
 print("would you like to play again? (Y/N")
-gameStatus = input()
+gameStatus = input().title()
 if gameStatus == 'Y':
+    random.shuffle(states)
+    playerStats['correctGuesses'] = 0
+    playerStats['incorrectGuesses'] = 0
+    playerStats['turns'] = 0
     function_game()
 
 
